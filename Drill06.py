@@ -48,12 +48,16 @@ while(running) :
         
         handle_events()
 
-        character.clip_draw(frame * 100, 0, 100, 100, cha_x, cha_y)
-
-        if(hands != 0) :
+        if(hands == 0) :
+            character.clip_draw(frame * 100, 0, 100, 100, cha_x, cha_y)
+        elif(hands != 0) :
             t = i / 100
             draw_hand()
             cha_move(t)
+            if(cha_x <= hand_x[0]) :
+                character.clip_draw(frame * 100, 0, 100, 100, cha_x, cha_y)
+            elif(cha_x >= hand_x[0]) :
+                character.clip_composite_draw(frame * 100, 0, 100, 100, 0, 'h', cha_x, cha_y, 100, 100)
             
         update_canvas()
 
