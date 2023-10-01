@@ -29,22 +29,36 @@ def handle_events() :
         elif(event.type == SDL_KEYDOWN) :
             if(event.key == SDLK_ESCAPE) :
                 running = False
-    
 
-while(running) :
-    clear_canvas()
-
-    ground.draw(ground_width // 2, ground_height // 2)
-    
-    handle_events()
-
+def draw_hand() :
     for i in range(0, hands) :
         hand.draw(hand_x[i - 1], hand_y[i - 1])
 
-    update_canvas()
-        
-    frame = (frame + 1) % 8
+def cha_move(t) :
+    global cha_x, cha_y
 
-    delay(0.1)
+    cha_x = (1 - t) * cha_x + t * hand_x[0]
+    cha_y = (1 - t) * cha_y + t * hand_y[0]
+
+while(running) :
+    for i in range(0, 100 + 1, 4) :
+        clear_canvas()
+
+        ground.draw(ground_width // 2, ground_height // 2)
+        
+        handle_events()
+
+        character.clip_draw(frame * 100, 0, 100, 100, cha_x, cha_y)
+
+        if(hands != 0) :
+            t = i / 100
+            draw_hand()
+            cha_move(t)
+            
+        update_canvas()
+
+        frame = (frame + 1) % 8
+
+        delay(0.1)
 
 close_canvas()
