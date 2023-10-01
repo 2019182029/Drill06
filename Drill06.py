@@ -60,5 +60,10 @@ while(running) :
         frame = (frame + 1) % 8
 
         delay(0.1)
+    
+    if((cha_x, cha_y) == (hand_x[0]), hand_y[0]) :
+        del hand_x[0]
+        del hand_y[0]
+        hands -= 1
 
 close_canvas()
